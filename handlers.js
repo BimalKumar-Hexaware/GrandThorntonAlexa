@@ -7,7 +7,7 @@ alexaApp.launch(function (req, res) {
 
 alexaApp.intent("opportunityStatusIntent", function (req, res) {
     console.log(request.data.request.intent.slots);
-    res.say("Success!");
+    res.say("Success!").shouldEndSession(false);
 });
 
 module.exports = alexaApp;
