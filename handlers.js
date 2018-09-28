@@ -9,4 +9,9 @@ alexaApp.intent("testIntent", function (req, res) {
     res.say("Success!").shouldEndSession(false);
 });
 
+alexaApp.intent("oppStatusIntent", function (req, res) {
+    console.log("Slots", req.data.request.intent.slots);
+    res.say("Success!").shouldEndSession(false);
+});
+
 module.exports = alexaApp;
