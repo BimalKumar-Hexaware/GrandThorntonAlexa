@@ -3,7 +3,7 @@ var express = require("express");
 var alexaApp = require("./handlers");
 
 var app = express();
-var PORT = process.env.port || 8080;
+const PORT = process.env.PORT || 5000;
 
 alexaApp.express({
     expressApp: app,
