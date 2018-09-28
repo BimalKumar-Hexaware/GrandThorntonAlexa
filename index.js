@@ -1,0 +1,16 @@
+'use strict';
+var express = require("express");
+var alexaApp = require("./handlers");
+
+var app = express();
+var PORT = process.env.port || 8080;
+
+alexaApp.express({
+    expressApp: app,
+    checkCert: false,
+    debug: true
+});
+
+app.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}, try http://localhost:${PORT}/webhook`);
+});

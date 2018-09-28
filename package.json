@@ -1,0 +1,23 @@
+{
+  "name": "grandthorntonalexa",
+  "version": "1.0.0",
+  "description": "Alexa voicebot developed for Grand Thornton",
+  "main": "index.js",
+  "scripts": {
+    "start": "forever index.js",
+    "stop": "forever stop index.js",
+    "devstart": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bimal Kumar H",
+  "license": "ISC",
+  "dependencies": {
+    "alexa-app": "^4.2.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "forever": "^0.15.3",
+    "lodash": "^4.17.11",
+    "nodemon": "^1.18.4",
+    "request": "^2.88.0"
+  }
+}
