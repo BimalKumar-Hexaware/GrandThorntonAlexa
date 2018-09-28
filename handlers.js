@@ -1,12 +1,11 @@
 var alexa = require("alexa-app");
-var alexaApp = new alexa.app("webhook");
+var alexaApp = new alexa.app("test");
 
 alexaApp.launch(function (req, res) {
     res.say("You launched the app!").shouldEndSession(false);
 });
 
-alexaApp.intent("opportunityStatusIntent", function (req, res) {
-    console.log(request.data.request.intent.slots);
+alexaApp.intent("testIntent", function (req, res) {
     res.say("Success!").shouldEndSession(false);
 });
 

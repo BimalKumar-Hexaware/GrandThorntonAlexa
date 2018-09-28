@@ -12,5 +12,5 @@ alexaApp.express({
 });
 
 app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}, try http://localhost:${PORT}/webhook`);
+    console.log(`Listening on port ${PORT}, try http://localhost:${PORT}/test`);
 });
