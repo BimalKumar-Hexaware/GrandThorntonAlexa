@@ -40,6 +40,7 @@ var self = {
         } else {
             speech.say('Unable to find opportunities.');
         }
+        speech.say('Is there anything else I can help you with?.');
         var speechOutput = speech.ssml(false);
         return speechOutput;
     }
