@@ -72,12 +72,11 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
     }
     console.log(params);
     return helper.callDynamicsAPI(params).then((result) => {
-        console.log(result);
-        res.say("call success").shouldEndSession(false);
+        var ssml = helper.buildSsml(result);
+        res.say(ssml).shouldEndSession(false);
     }).catch((err) => {
         res.say("Sorry, something went wrong").shouldEndSession(false);
-    });
-    
+    });    
 });
 
 alexaApp.intent("dateIntent", function (req, res) {

@@ -1,4 +1,6 @@
 var request = require('request');
+var _ = require('lodash');
+var Speech = require('ssml-builder');
 
 var self = {
     "callDynamicsAPI": function (params) {
@@ -21,8 +23,26 @@ var self = {
                 resolve(body);
             });
         });
+    },
+    "buildSsml": function (result) {
+        var speech = new Speech();
+        speech.say('Below are the opportunities.')
+            .pause('1s');
+        var speechOutput = speech.ssml(true);
+        if (typeof result.value !== 'undefined') {
+            _.forEach(result.value, function (value, key) {
+                if (key < 3) {
+                    speech.sayAs({ word: key + 1, interpret: 'ordinal' });
+                    speech.say(value.name);
+                    speech.say("and the revenue is "+value.estimatedvalue);
+                }
+            });
+        } else {
+            speech.say('Unable to find opportunities.');
+        }
+        var speechOutput = speech.ssml(true);
+        return speechOutput;
     }
-
 };
 
 module.exports = self;
