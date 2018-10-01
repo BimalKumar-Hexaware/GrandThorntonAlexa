@@ -32,7 +32,7 @@ alexaApp.intent("oppFilterIntent", function (req, res) {
     oppFilterIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     oppFilter = req.data.request.intent.slots.filter.value;
-    if (oppFilter == "revenue") {
+    if (oppFilter == "revenue" || oppFilter == 'estimated revenue') {
         res.say("Please mention the range").shouldEndSession(false);
     } else if (oppFilter == "date") {
         res.say("Please mention the date").shouldEndSession(false);
