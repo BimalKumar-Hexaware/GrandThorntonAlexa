@@ -29,7 +29,7 @@ var self = {
 
         var speechOutput = speech.ssml(true);
         if (typeof result.value !== 'undefined') {
-            speech.say('Below are the opportunities.').pause('1s');
+            speech.say('Below are the opportunities.').pause('500ms');
             _.forEach(result.value, function (value, key) {
                 if (key < 3) {
                     speech.sayAs({ word: key + 1, interpret: 'ordinal' }).pause('500ms');
