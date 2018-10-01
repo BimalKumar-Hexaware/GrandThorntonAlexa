@@ -16,10 +16,6 @@ alexaApp.launch(function (req, res) {
     res.say("Hi there, I am your Grand Thornton Assistant. Tell me how can I help you.").shouldEndSession(false);
 });
 
-alexaApp.intent("testIntent", function (req, res) {
-    res.say("Success!").shouldEndSession(false);
-});
-
 alexaApp.intent("oppStatusIntent", function (req, res) {
     oppStatusIntent = true;
     console.log("Slots", req.data.request.intent.slots);
@@ -100,7 +96,16 @@ alexaApp.intent("dateIntent", function (req, res) {
 });
 
 alexaApp.intent("thankIntent", function (req, res) {
-    res.say("happy to help you. Have a nice day.").shouldEndSession(true);
+    oppStatusIntent = false;
+    oppFilterIntent = false;
+    revenueRangeIntent = false;
+    dateIntent = false;
+    oppStatus = "";
+    oppFilter = "";
+    number = "";
+    revenuerange = "";
+    date = "";
+    res.say("Happy to help you. Have a nice day.").shouldEndSession(true);
 });
 
 module.exports = alexaApp;
