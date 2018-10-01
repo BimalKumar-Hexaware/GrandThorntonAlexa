@@ -99,4 +99,8 @@ alexaApp.intent("dateIntent", function (req, res) {
     });
 });
 
+alexaApp.intent("thankIntent", function (req, res) {
+    res.say("happy to help you. Have a nice day.").shouldEndSession(true);
+});
+
 module.exports = alexaApp;
