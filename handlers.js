@@ -43,12 +43,14 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
     console.log("Slots", req.data.request.intent.slots);
     revenueRange = req.data.request.intent.slots.revenuerange.value;
     number = req.data.request.intent.slots.number.value;
+    res.say("fire api").shouldEndSession(false);
 });
 
 alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     date = req.data.request.intent.slots.date.value;
+    res.say("fire api").shouldEndSession(false);
 });
 
 module.exports = alexaApp;
