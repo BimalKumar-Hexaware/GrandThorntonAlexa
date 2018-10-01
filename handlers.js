@@ -13,7 +13,7 @@ revenuerange = "";
 date = "";
 
 alexaApp.launch(function (req, res) {
-    res.say("You launched the app!").shouldEndSession(false);
+    res.say("Hi there, I am your Grand Thornton Assistant. Tell me how can I help you.").shouldEndSession(false);
 });
 
 alexaApp.intent("testIntent", function (req, res) {
