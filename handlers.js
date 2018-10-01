@@ -7,7 +7,6 @@ revenueRangeIntent = false;
 dateIntent = false;
 oppStatus = "";
 oppFilter = "";
-revenueRange = "";
 number = "";
 date = "";
 
@@ -40,8 +39,8 @@ alexaApp.intent("oppFilterIntent", function (req, res) {
 
 alexaApp.intent("revenueRangeIntent", function (req, res) {
     revenueRangeIntent = true;
+    console.log(JSON.stringify(req.data.request.intent));
     console.log("Slots", req.data.request.intent.slots);
-    revenueRange = req.data.request.intent.slots.revenuerange.value;
     number = req.data.request.intent.slots.number.value;
     res.say("fire api").shouldEndSession(false);
 });
