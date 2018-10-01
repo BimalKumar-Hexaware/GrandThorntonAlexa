@@ -19,6 +19,7 @@ alexaApp.intent("testIntent", function (req, res) {
 });
 
 alexaApp.intent("oppStatusIntent", function (req, res) {
+    console.log(alexaApp.utterances());
     oppStatusIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
@@ -42,14 +43,14 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
     console.log(JSON.stringify(req.data.request));
     console.log("Slots", req.data.request.intent.slots);
     number = req.data.request.intent.slots.number.value;
-    res.say("fire api").shouldEndSession(false);
+    res.say("fire revenue api").shouldEndSession(false);
 });
 
 alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     date = req.data.request.intent.slots.date.value;
-    res.say("fire api").shouldEndSession(false);
+    res.say("fire date api").shouldEndSession(false);
 });
 
 module.exports = alexaApp;
