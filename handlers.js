@@ -19,7 +19,7 @@ alexaApp.intent("testIntent", function (req, res) {
 });
 
 alexaApp.intent("oppStatusIntent", function (req, res) {
-    console.log(alexaApp.utterances());
+    console.log(req.data);
     oppStatusIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
