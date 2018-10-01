@@ -1,5 +1,6 @@
 var alexa = require("alexa-app");
 var alexaApp = new alexa.app("test");
+var helper = require('./helper');
 
 oppStatusIntent = false;
 oppFilterIntent = false;
