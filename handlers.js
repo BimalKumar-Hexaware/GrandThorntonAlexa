@@ -8,6 +8,7 @@ dateIntent = false;
 oppStatus = "";
 oppFilter = "";
 number = "";
+revenuerange = "";
 date = "";
 
 alexaApp.launch(function (req, res) {
@@ -19,7 +20,6 @@ alexaApp.intent("testIntent", function (req, res) {
 });
 
 alexaApp.intent("oppStatusIntent", function (req, res) {
-    console.log(req.data);
     oppStatusIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
@@ -40,10 +40,43 @@ alexaApp.intent("oppFilterIntent", function (req, res) {
 
 alexaApp.intent("revenueRangeIntent", function (req, res) {
     revenueRangeIntent = true;
-    console.log(JSON.stringify(req.data.request));
     console.log("Slots", req.data.request.intent.slots);
     number = req.data.request.intent.slots.number.value;
-    res.say("fire revenue api").shouldEndSession(false);
+    revenuerange = req.data.request.intent.slots.revenuerange.value;
+    var params = {
+        "number": number,
+        "oppstatus": oppStatus,
+        "filters": 'estimatedvalue'
+    };
+
+    switch (revenuerange) {
+        case 'equals':
+            params.ranges = "eq";
+            break;
+        case 'not equal':
+            params.ranges = "ne";
+            break;
+        case 'less than or equal':
+            params.ranges = "le";
+            break;
+        case 'less than':
+            params.ranges = "lt";
+            break;
+        case 'greater than':
+            params.ranges = "gt";
+            break;
+        case 'greater than or equal':
+            params.ranges = "ge";
+            break;
+    }
+    console.log(params);
+    return helper.callDynamicsAPI(params).then((result) => {
+        console.log(result);
+        res.say("call success").shouldEndSession(false);
+    }).catch((err) => {
+        res.say("Sorry, something went wrong").shouldEndSession(false);
+    });
+    
 });
 
 alexaApp.intent("dateIntent", function (req, res) {
