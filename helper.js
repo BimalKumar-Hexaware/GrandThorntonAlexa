@@ -26,15 +26,15 @@ var self = {
     },
     "buildSsml": function (result) {
         var speech = new Speech();
-        speech.say('Below are the opportunities.')
-            .pause('1s');
+
         var speechOutput = speech.ssml(true);
         if (typeof result.value !== 'undefined') {
+            speech.say('Below are the opportunities.').pause('1s');
             _.forEach(result.value, function (value, key) {
                 if (key < 3) {
-                    speech.sayAs({ word: key + 1, interpret: 'ordinal' });
+                    speech.sayAs({ word: key + 1, interpret: 'ordinal' }).pause('500ms');
                     speech.say(value.name);
-                    speech.say("and the revenue is "+value.estimatedvalue);
+                    speech.say("and the revenue is " + value.estimatedvalue).pause('500ms');
                 }
             });
         } else {

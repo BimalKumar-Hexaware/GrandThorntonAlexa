@@ -84,7 +84,19 @@ alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     date = req.data.request.intent.slots.date.value;
-    res.say("fire date api").shouldEndSession(false);
+    var params = {
+        "date": date,
+        "oppstatus": oppStatus,
+        "filters": 'createdon'
+    };
+    console.log(params);
+    return helper.callDynamicsAPI(params).then((result) => {
+        var ssml = helper.buildSsml(result);
+        console.log("SSML", ssml);
+        res.say(ssml).shouldEndSession(false);
+    }).catch((err) => {
+        res.say("Sorry, something went wrong").shouldEndSession(false);
+    });
 });
 
 module.exports = alexaApp;
