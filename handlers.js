@@ -23,7 +23,7 @@ alexaApp.intent("oppStatusIntent", function (req, res) {
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
 
-    res.say("You can filter the opportunities by date and estimated revenue. Which one you want?").shouldEndSession(false);
+    res.say("You can filter the opportunities by date and revenue. Which one you want?").shouldEndSession(false);
 });
 
 alexaApp.intent("oppFilterIntent", function (req, res) {
