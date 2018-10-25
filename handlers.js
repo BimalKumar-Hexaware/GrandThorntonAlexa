@@ -100,9 +100,9 @@ alexaApp.intent("dateIntent", function (req, res) {
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
     if (date == "" || typeof date == "undefined") {
+        console.log(req.slots);
         var condition = req.slots.condition.resolutions[0].values[0].name;
         if(condition == "" || typeof condition == "undefined"){
-            console.log(req.data);
             startDate = req.data.request.intent.slots.startDate.value;
             endDate = req.data.request.intent.slots.startDate.value;
             monthName = req.data.request.intent.slots.monthName.value;
