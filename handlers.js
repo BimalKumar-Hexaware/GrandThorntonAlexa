@@ -20,8 +20,12 @@ alexaApp.intent("oppStatusIntent", function (req, res) {
     oppStatusIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
-
-    res.say("You can filter the opportunities by date and revenue. Which one you want?").shouldEndSession(false);
+    if (oppStatus == "" || typeof oppStatus == "undefined") {
+        console.log("oppstatus empty");
+        res.say("Please tell us the status in which want to see the opportunities, open or closed").shouldEndSession(false);
+    } else {
+        res.say("You can filter the opportunities by date and revenue. Which one you want?").shouldEndSession(false);
+    }
 });
 
 alexaApp.intent("oppFilterIntent", function (req, res) {
