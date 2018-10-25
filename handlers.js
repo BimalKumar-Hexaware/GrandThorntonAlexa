@@ -137,11 +137,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                 "filters": 'createdon'
             };
         }
-        var params = {
-            "condition": condition,
-            "oppstatus": oppStatus,
-            "filters": 'createdon'
-        };
+       
     } else {
         var params = {
             "date": date,
