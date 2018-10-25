@@ -127,7 +127,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                 };
             } else if(quarterly !== "" && typeof quarterly !== "undefined") {
                 var params = {
-                    "quaterType":quarterly[0].values[0].name,
+                    "quaterType":quarterly,
                     "condition": 'quarterly',
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
