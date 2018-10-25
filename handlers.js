@@ -100,13 +100,13 @@ alexaApp.intent("dateIntent", function (req, res) {
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
     if (date == "" || typeof date == "undefined") {
-        console.log(req.slots);
-        var condition = req.slots.condition.resolutions[0].values[0].name;
-        if(condition == "" || typeof condition == "undefined"){
+        console.log(req.data);
+        var condition = req.slots.condition.resolutions;
+        if(condition == [] || typeof condition == "undefined"){
             startDate = req.data.request.intent.slots.startDate.value;
             endDate = req.data.request.intent.slots.startDate.value;
             monthName = req.data.request.intent.slots.monthName.value;
-            quarterly  = req.slots.quarterly.resolutions[0].values[0].name;
+            quarterly  = req.slots.quarterly.resolutions;
 
             if((startDate !== "" && typeof startDate !== "undefined") && (endDate !== "" && typeof endDate !== "undefined")) {
                 var params = {
@@ -123,9 +123,9 @@ alexaApp.intent("dateIntent", function (req, res) {
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
-            } else if(quarterly !== "" && typeof quarterly !== "undefined") {
+            } else if(quarterly !== [] && typeof quarterly !== "undefined") {
                 var params = {
-                    "quaterType":quarterly,
+                    "quaterType":quarterly[0].values[0].name,
                     "condition": 'quarterly',
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
@@ -133,7 +133,7 @@ alexaApp.intent("dateIntent", function (req, res) {
             }
         } else {
             var params = {
-                "condition": condition,
+                "condition": condition[0].values[0].name,
                 "oppstatus": oppStatus,
                 "filters": 'createdon'
             };
