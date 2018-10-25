@@ -100,9 +100,11 @@ alexaApp.intent("dateIntent", function (req, res) {
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
     if (date == "" || typeof date == "undefined") {
-        console.log(req.data);
+        // console.log(req.data);
         var condition = req.slots.condition.resolutions;
-        if(condition == [] || typeof condition == "undefined"){
+        console.log(condition);
+        if(condition === [] || typeof condition === "undefined"){
+            console.log(1)
             startDate = req.data.request.intent.slots.startDate.value;
             endDate = req.data.request.intent.slots.startDate.value;
             monthName = req.data.request.intent.slots.monthName.value;
@@ -132,6 +134,8 @@ alexaApp.intent("dateIntent", function (req, res) {
                 };
             }
         } else {
+            console.log(2)
+
             var params = {
                 "condition": condition[0].values[0].name,
                 "oppstatus": oppStatus,
