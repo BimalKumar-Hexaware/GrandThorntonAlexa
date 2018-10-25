@@ -11,6 +11,8 @@ oppFilter = "";
 number = "";
 revenuerange = "";
 date = "";
+low = "";
+high = "";
 
 alexaApp.launch(function (req, res) {
     res.say("Hi there, I am your Grand Thornton Assistant. Tell me how can I help you.").shouldEndSession(false);
@@ -44,33 +46,45 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
     console.log("Slots", req.data.request.intent.slots);
     number = req.data.request.intent.slots.number.value;
     revenuerange = req.data.request.intent.slots.revenuerange.value;
-    var params = {
-        "number": number,
-        "oppstatus": oppStatus,
-        "filters": 'estimatedvalue'
-    };
-
-    switch (revenuerange) {
-        case 'equals':
-            params.ranges = "eq";
-            break;
-        case 'not equal':
-            params.ranges = "ne";
-            break;
-        case 'less than or equal':
-            params.ranges = "le";
-            break;
-        case 'less than':
-            params.ranges = "lt";
-            break;
-        case 'greater than':
-            params.ranges = "gt";
-            break;
-        case 'greater than or equal':
-            params.ranges = "ge";
-            break;
+    if (revenuerange == "" || typeof revenuerange == "undefined") {
+        high = req.data.request.intent.slots.high.value;
+        low = req.data.request.intent.slots.low.value;
+        console.log("low high defined");
+        var params = {
+            "high": high,
+            "low": low,
+            "oppstatus": oppStatus,
+            "filters": 'estimatedvalue'
+        };
+    } else {
+        console.log("range defined");
+        var params = {
+            "number": number,
+            "oppstatus": oppStatus,
+            "filters": 'estimatedvalue'
+        };
+        switch (revenuerange) {
+            case 'equals':
+                params.ranges = "eq";
+                break;
+            case 'not equal':
+                params.ranges = "ne";
+                break;
+            case 'less than or equal':
+                params.ranges = "le";
+                break;
+            case 'less than':
+                params.ranges = "lt";
+                break;
+            case 'greater than':
+                params.ranges = "gt";
+                break;
+            case 'greater than or equal':
+                params.ranges = "ge";
+                break;
+        }
     }
-    console.log(params);
+    console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
         var ssml = helper.buildSsml(result);
         console.log("SSML", ssml);
