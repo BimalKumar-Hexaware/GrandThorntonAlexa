@@ -103,7 +103,7 @@ alexaApp.intent("dateIntent", function (req, res) {
         // console.log(req.data);
         var condition = req.slots.condition.resolutions;
         console.log(condition);
-        if(condition === [] || typeof condition === "undefined"){
+        if(condition.length === 0 || typeof condition === "undefined"){
             console.log(1)
             startDate = req.data.request.intent.slots.startDate.value;
             endDate = req.data.request.intent.slots.startDate.value;
@@ -125,7 +125,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
-            } else if(quarterly !== [] && typeof quarterly !== "undefined") {
+            } else if(quarterly.length !== 0 && typeof quarterly !== "undefined") {
                 var params = {
                     "quaterType":quarterly[0].values[0].name,
                     "condition": 'quarterly',
