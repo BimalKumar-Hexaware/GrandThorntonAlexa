@@ -42,6 +42,7 @@ alexaApp.intent("oppFilterIntent", function (req, res) {
 });
 
 alexaApp.intent("revenueRangeIntent", function (req, res) {
+    console.log("inside revenueRangeIntent");
     revenueRangeIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     number = req.data.request.intent.slots.number.value;
