@@ -100,7 +100,7 @@ alexaApp.intent("dateIntent", function (req, res) {
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
     if (date == "" || typeof date == "undefined") {
-        var condition = req.slots.condition.resolutions.values[0].name;
+        var condition = req.slots.condition.resolutions[0].values[0].name;
         var params = {
             "condition": condition,
             "oppstatus": oppStatus,
