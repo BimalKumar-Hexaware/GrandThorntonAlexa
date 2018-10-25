@@ -101,6 +101,42 @@ alexaApp.intent("dateIntent", function (req, res) {
     date = req.data.request.intent.slots.date.value;
     if (date == "" || typeof date == "undefined") {
         var condition = req.slots.condition.resolutions[0].values[0].name;
+        if(condition == "" || typeof condition == "undefined"){
+            startDate = req.data.request.intent.slots.startDate.value;
+            endDate = req.data.request.intent.slots.startDate.value;
+            monthName = req.data.request.intent.slots.monthName.value;
+            quarterly  = req.slots.quarterly.resolutions[0].values[0].name;
+
+            if((startDate !== "" && typeof startDate !== "undefined") && (endDate !== "" && typeof endDate !== "undefined")) {
+                var params = {
+                    "startDate":startDate,
+                    "endDate":endDate,
+                    "condition": 'inBetween',
+                    "oppstatus": oppStatus,
+                    "filters": 'createdon'
+                };
+            } else if(monthName !== "" && typeof monthName !== "undefined") {
+                var params = {
+                    "monthName":monthName,
+                    "condition": 'month',
+                    "oppstatus": oppStatus,
+                    "filters": 'createdon'
+                };
+            } else if(quarterly !== "" && typeof quarterly !== "undefined") {
+                var params = {
+                    "quaterType":quarterly,
+                    "condition": 'quarterly',
+                    "oppstatus": oppStatus,
+                    "filters": 'createdon'
+                };
+            }
+        } else {
+            var params = {
+                "condition": condition,
+                "oppstatus": oppStatus,
+                "filters": 'createdon'
+            };
+        }
         var params = {
             "condition": condition,
             "oppstatus": oppStatus,
