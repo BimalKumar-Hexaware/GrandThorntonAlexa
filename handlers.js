@@ -102,6 +102,7 @@ alexaApp.intent("dateIntent", function (req, res) {
     if (date == "" || typeof date == "undefined") {
         var condition = req.slots.condition.resolutions[0].values[0].name;
         if(condition == "" || typeof condition == "undefined"){
+            console.log(req.data);
             startDate = req.data.request.intent.slots.startDate.value;
             endDate = req.data.request.intent.slots.startDate.value;
             monthName = req.data.request.intent.slots.monthName.value;
