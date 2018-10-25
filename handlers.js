@@ -99,12 +99,21 @@ alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
     console.log("Slots", req.data.request.intent.slots);
     date = req.data.request.intent.slots.date.value;
-    var params = {
-        "date": date,
-        "oppstatus": oppStatus,
-        "filters": 'createdon'
-    };
-    console.log(params);
+    if (date == "" || typeof date == "undefined") {
+        var condition = req.data.request.intent.slots.condition.value;
+        var params = {
+            "condition": condition,
+            "oppstatus": oppStatus,
+            "filters": 'createdon'
+        };
+    } else {
+        var params = {
+            "date": date,
+            "oppstatus": oppStatus,
+            "filters": 'createdon'
+        };
+    }
+    console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
         var ssml = helper.buildSsml(result);
         console.log("SSML", ssml);
