@@ -97,10 +97,10 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
 
 alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
-    console.log("Slots", req.data.request.intent.slots);
+    console.log("Slots", req.slots());
     date = req.data.request.intent.slots.date.value;
     if (date == "" || typeof date == "undefined") {
-        var condition = req.data.request.intent.slots.condition.value;
+        var condition = req.data.request.intent.slots.condition.ID;
         var params = {
             "condition": condition,
             "oppstatus": oppStatus,
