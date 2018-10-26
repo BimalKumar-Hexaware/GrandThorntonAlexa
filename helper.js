@@ -35,12 +35,12 @@ var self = {
                 if (key < 5) {
                     speech.sayAs({ word: key + 1, interpret: 'ordinal' }).pause('500ms');
                     speech.say(value.name);
-                    if (oppStatus === 'close') {
-                        speech.say("the revenue is " + value.estimatedvalue);
-                        speech.say("and the status is ").pause('500ms');
-                    } else {
-                        speech.say("and the revenue is " + value.estimatedvalue).pause('500ms');
-                    }
+                    // if (oppStatus === 'close') {
+                    //     speech.say("the revenue is " + value.estimatedvalue);
+                    //     speech.say("and the status is ").pause('500ms');
+                    // } else {
+                    speech.say("and the revenue is " + value.estimatedvalue).pause('500ms');
+                    // }
                 }
             });
         } else {
