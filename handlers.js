@@ -123,6 +123,14 @@ alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
+    if(date.match(/^\d{4}-W\d/g)) {
+        req.slots.condition.resolutions = [{
+            values: [{
+                name: 'this-week'
+            }]
+        }];
+        date = "";
+    }
     if (date == "" || typeof date == "undefined") {
         // console.log(req.data);
         var condition = req.slots.condition.resolutions;
