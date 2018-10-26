@@ -29,9 +29,9 @@ var self = {
 
         var speechOutput = speech.ssml(true);
         if (typeof result.value !== 'undefined') {
-            speech.say('Below are the opportunities.').pause('500ms');
+            speech.say('These are the opportunities.').pause('500ms');
             _.forEach(result.value, function (value, key) {
-                if (key < 3) {
+                if (key < 5) {
                     speech.sayAs({ word: key + 1, interpret: 'ordinal' }).pause('500ms');
                     speech.say(value.name);
                     speech.say("and the revenue is " + value.estimatedvalue).pause('500ms');

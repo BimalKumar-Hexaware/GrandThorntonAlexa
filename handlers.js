@@ -2,6 +2,7 @@ var alexa = require("alexa-app");
 var alexaApp = new alexa.app("test");
 var helper = require('./helper');
 
+var fallbackIntents = ['What was that?', 'Hmm. I am not sure about that.', 'Sorry. I am not sure about that.', 'I dont know that'];
 oppStatusIntent = false;
 oppFilterIntent = false;
 revenueRangeIntent = false;
@@ -13,6 +14,29 @@ revenuerange = "";
 date = "";
 low = "";
 high = "";
+
+alexaApp.error = function (exception, req, res) {
+    console.log(exception);
+    console.log("inside error handler");
+    res.say("Sorry, something bad happened").shouldEndSession(false);
+};
+
+alexaApp.intent("AMAZON.StopIntent", function (request, response) {
+    console.log("Inside AMAZON.StopIntent");
+    var stopOutput = "Don't You Worry. I'll be back.";
+    response.say(stopOutput);
+});
+
+alexaApp.intent("AMAZON.FallbackIntent", function (req, res) {
+    console.log("AMAZON.FallbackIntent");
+    res.say(fallbackIntents[Math.floor(Math.random() * fallbackIntents.length)]).shouldEndSession(false);
+});
+
+alexaApp.intent("AMAZON.CancelIntent", function (request, response) {
+    console.log("Inside AMAZON.CancelIntent");
+    var cancelOutput = "No problem. Request cancelled.";
+    response.say(cancelOutput);
+});
 
 alexaApp.launch(function (req, res) {
     res.say("Hi there, I am your Grand Thornton Assistant. Tell me how can I help you.").shouldEndSession(false);
@@ -103,31 +127,31 @@ alexaApp.intent("dateIntent", function (req, res) {
         // console.log(req.data);
         var condition = req.slots.condition.resolutions;
         console.log(condition);
-        if(condition.length === 0 || typeof condition === "undefined"){
+        if (condition.length === 0 || typeof condition === "undefined") {
             console.log(1)
             startDate = req.data.request.intent.slots.startDate.value;
             endDate = req.data.request.intent.slots.startDate.value;
             monthName = req.data.request.intent.slots.monthName.value;
-            quarterly  = req.slots.quarterly.resolutions;
+            quarterly = req.slots.quarterly.resolutions;
 
-            if((startDate !== "" && typeof startDate !== "undefined") && (endDate !== "" && typeof endDate !== "undefined")) {
+            if ((startDate !== "" && typeof startDate !== "undefined") && (endDate !== "" && typeof endDate !== "undefined")) {
                 var params = {
-                    "startDate":startDate,
-                    "endDate":endDate,
+                    "startDate": startDate,
+                    "endDate": endDate,
                     "condition": 'inBetween',
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
-            } else if(monthName !== "" && typeof monthName !== "undefined") {
+            } else if (monthName !== "" && typeof monthName !== "undefined") {
                 var params = {
-                    "monthName":monthName,
+                    "monthName": monthName,
                     "condition": 'month',
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
-            } else if(quarterly.length !== 0 && typeof quarterly !== "undefined") {
+            } else if (quarterly.length !== 0 && typeof quarterly !== "undefined") {
                 var params = {
-                    "quaterType":quarterly[0].values[0].name,
+                    "quaterType": quarterly[0].values[0].name,
                     "condition": 'quarterly',
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
@@ -142,7 +166,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                 "filters": 'createdon'
             };
         }
-       
+
     } else {
         var params = {
             "date": date,
