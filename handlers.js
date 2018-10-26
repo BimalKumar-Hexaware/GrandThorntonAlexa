@@ -124,7 +124,7 @@ alexaApp.intent("dateIntent", function (req, res) {
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
     console.log(date);
-    if ((date !== "" || typeof date !== "undefined")) {
+    if (date !== "" && typeof date !== "undefined") {
         if(date.match(/^\d{4}-W\d/g)) {
             req.slots.condition.resolutions = [{
                 values: [{
