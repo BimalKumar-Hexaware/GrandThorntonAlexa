@@ -24,21 +24,27 @@ var self = {
             });
         });
     },
-    "buildSsml": function (result) {
+    "buildSsml": function (oppStatus, result) {
         var speech = new Speech();
 
         var speechOutput = speech.ssml(true);
         if (typeof result.value !== 'undefined') {
             speech.say('These are the opportunities.').pause('500ms');
             _.forEach(result.value, function (value, key) {
+                console.log("VALUE", value);
                 if (key < 5) {
                     speech.sayAs({ word: key + 1, interpret: 'ordinal' }).pause('500ms');
                     speech.say(value.name);
-                    speech.say("and the revenue is " + value.estimatedvalue).pause('500ms');
+                    if (oppStatus === 'close') {
+                        speech.say("the revenue is " + value.estimatedvalue);
+                        speech.say("and the status is ").pause('500ms');
+                    } else {
+                        speech.say("and the revenue is " + value.estimatedvalue).pause('500ms');
+                    }
                 }
             });
         } else {
-            speech.say('Unable to find opportunities.');
+            speech.say('There is no matching opportunities found for your request.');
         }
         speech.say('Is there anything else that I can help you with?.');
         var speechOutput = speech.ssml(false);

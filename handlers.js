@@ -111,7 +111,7 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
     }
     console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
-        var ssml = helper.buildSsml(result);
+        var ssml = helper.buildSsml(oppStatus, result);
         console.log("SSML", ssml);
         res.say(ssml).shouldEndSession(false);
     }).catch((err) => {
@@ -123,7 +123,7 @@ alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
-    if(date.match(/^\d{4}-W\d/g)) {
+    if ((date !== "" || typeof date !== "undefined") && date.match(/^\d{4}-W\d/g)) {
         req.slots.condition.resolutions = [{
             values: [{
                 name: 'this-week'
@@ -184,7 +184,7 @@ alexaApp.intent("dateIntent", function (req, res) {
     }
     console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
-        var ssml = helper.buildSsml(result);
+        var ssml = helper.buildSsml(oppStatus, result);
         console.log("SSML", ssml);
         res.say(ssml).shouldEndSession(false);
     }).catch((err) => {
