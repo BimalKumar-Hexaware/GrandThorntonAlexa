@@ -255,7 +255,6 @@ alexaApp.intent("dateIntent", function (req, res) {
     });
 });
 
-
 alexaApp.intent('combinedDateIntent', function (req, res) {
     console.log("inside combinedDateIntent");
     console.log("Slots", req.data.request.intent.slots);
