@@ -29,7 +29,7 @@ var self = {
 
         var speechOutput = speech.ssml(true);
         if (typeof result.value !== 'undefined') {
-            speech.say('These are the opportunities.').pause('500ms');
+            speech.say(`These are the ${oppStatus} opportunities`).pause('500ms');
             _.forEach(result.value, function (value, key) {
                 console.log("VALUE", value);
                 if (key < 5) {
