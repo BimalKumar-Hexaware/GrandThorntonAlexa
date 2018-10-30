@@ -261,7 +261,7 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
     oppStatus = req.data.request.intent.slots.status.value;
     if (oppStatus == "" || typeof oppStatus == "undefined") {
         console.log("oppstatus empty");
-        res.say("Please tell us the status in which want to see the opportunities, open or closed").shouldEndSession(false);
+        res.say("Please tell us the status in which want to see the opportunities, open,closed,Won or lost").shouldEndSession(false);
     } else {
         date = req.data.request.intent.slots.date.value;
         console.log("DATE", date);
