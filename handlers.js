@@ -1,6 +1,7 @@
 var alexa = require("alexa-app");
 var alexaApp = new alexa.app("test");
 var helper = require('./helper');
+var Speech = require('ssml-builder');
 
 var fallbackIntents = ['What was that?', 'Hmm. I am not sure about that.', 'Sorry. I am not sure about that.', 'I dont know that'];
 oppStatusIntent = false;
@@ -334,6 +335,21 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
             res.say("Sorry, something went wrong").shouldEndSession(false);
         });
     }
+});
+
+alexaApp.intent("newsUpdatesIntent", function (req, res) {
+    console.log("Inside newsUpdatesIntent");
+    return helper.newsUpdatesAPI().then((result) => {
+        console.log("NEWSes", result);
+        var latestNews = result[Math.floor(Math.random() * result.length)];
+        var speech = new Speech();
+        speech.say("Reading the latest news update").pause('500ms');
+        speech.sentence(latestNews);
+        var speechOutput = speech.ssml(false);
+        res.say(speechOutput).shouldEndSession(false);
+    }).catch((err) => {
+        res.say("Sorry, something went wrong").shouldEndSession(false);
+    });
 });
 
 alexaApp.intent("thankIntent", function (req, res) {
