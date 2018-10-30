@@ -345,6 +345,7 @@ alexaApp.intent("newsUpdatesIntent", function (req, res) {
         var speech = new Speech();
         speech.say("Reading the latest news update").pause('500ms');
         speech.sentence(latestNews);
+        speech.sentence("Is there anything else that I can help you with?");
         var speechOutput = speech.ssml(false);
         res.say(speechOutput).shouldEndSession(false);
     }).catch((err) => {
