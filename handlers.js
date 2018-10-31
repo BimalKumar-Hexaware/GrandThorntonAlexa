@@ -22,21 +22,20 @@ alexaApp.error = function (exception, req, res) {
     res.say("Sorry, something bad happened").shouldEndSession(false);
 };
 
-alexaApp.intent("AMAZON.StopIntent", function (request, response) {
-    console.log("Inside AMAZON.StopIntent");
-    var stopOutput = "Don't You Worry. I'll be back.";
-    response.say(stopOutput);
-});
-
 alexaApp.intent("AMAZON.FallbackIntent", function (req, res) {
     console.log("AMAZON.FallbackIntent");
     res.say(fallbackIntents[Math.floor(Math.random() * fallbackIntents.length)]).shouldEndSession(false);
 });
 
+alexaApp.intent("AMAZON.StopIntent", function (request, response) {
+    console.log("Inside AMAZON.StopIntent");
+    var stopOutput = "Don't You Worry. I'll be back.";
+    response.say(stopOutput).shouldEndSession(true);
+});
+
 alexaApp.intent("AMAZON.CancelIntent", function (request, response) {
     console.log("Inside AMAZON.CancelIntent");
-    var cancelOutput = "No problem. Request cancelled.";
-    response.say(cancelOutput);
+    response.say("No problem. Request cancelled.").shouldEndSession(false);
 });
 
 alexaApp.launch(function (req, res) {
@@ -49,7 +48,7 @@ alexaApp.intent("oppStatusIntent", function (req, res) {
     oppStatus = req.data.request.intent.slots.status.value;
     if (oppStatus == "" || typeof oppStatus == "undefined") {
         console.log("oppstatus empty");
-        res.say("Please tell us the status in which want to see the opportunities, open or closed").shouldEndSession(false);
+        res.say("Please tell us the status in which want to see the opportunities, open,close,won or lost").shouldEndSession(false);
     } else {
         res.say("You can filter the opportunities by date and revenue. Which one you want?").shouldEndSession(false);
     }
