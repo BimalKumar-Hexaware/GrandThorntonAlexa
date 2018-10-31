@@ -83,7 +83,7 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
             "oppstatus": oppStatus,
             "filters": 'estimatedvalue'
         };
-        filterRange = "with Revenue between "+ low +" to "+ high;
+        filterRange = "with Revenue between "+ converter.toWords(low) +" to "+ converter.toWords(high);
     } else {
         console.log("range defined");
         var params = {
@@ -111,7 +111,7 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
                 params.ranges = "ge";
                 break;
         }
-        filterRange = "with Revenue "+ revenuerange + number;
+        filterRange = "with Revenue "+ revenuerange + converter.toWords(number);
     }
     console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
