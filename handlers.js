@@ -2,6 +2,7 @@ var alexa = require("alexa-app");
 var alexaApp = new alexa.app("test");
 var helper = require('./helper');
 var Speech = require('ssml-builder');
+var converter = require('number-to-words');
 
 var fallbackIntents = ['What was that?', 'Hmm. I am not sure about that.', 'Sorry. I am not sure about that.', 'I dont know that'];
 oppStatusIntent = false;
@@ -126,9 +127,10 @@ alexaApp.intent("combinedRevenueIntent", function (req, res) {
     console.log("inside combinedRevenueIntent");
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
+    filterRange = '';
     if (oppStatus == "" || typeof oppStatus == "undefined") {
         console.log("oppstatus empty");
-        res.say("Please tell us the status in which want to see the opportunities, open or closed").shouldEndSession(false);
+        res.say("Please tell us the status in which want to see the opportunities, open,closed,won or lost").shouldEndSession(false);
     } else {
         number = req.data.request.intent.slots.number.value;
         revenuerange = req.data.request.intent.slots.revenuerange.value;
@@ -142,6 +144,7 @@ alexaApp.intent("combinedRevenueIntent", function (req, res) {
                 "oppstatus": oppStatus,
                 "filters": 'estimatedvalue'
             };
+            filterRange = "with Revenue between "+ converter.toWords(low) +" to "+ converter.toWords(high);
         } else {
             console.log("range defined");
             var params = {
@@ -169,10 +172,11 @@ alexaApp.intent("combinedRevenueIntent", function (req, res) {
                     params.ranges = "ge";
                     break;
             }
+            filterRange = "with Revenue "+ revenuerange + converter.toWords(number);
         }
         console.log("PARAMS", params);
         return helper.callDynamicsAPI(params).then((result) => {
-            var ssml = helper.buildSsml(oppStatus, result);
+            var ssml = helper.buildSsml(oppStatus, filterRange, result);
             console.log("SSML", ssml);
             res.say(ssml).shouldEndSession(false);
         }).catch((err) => {
@@ -185,6 +189,7 @@ alexaApp.intent("dateIntent", function (req, res) {
     dateIntent = true;
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
+    filterRange = '';
     console.log(date);
     if (date !== "" && typeof date !== "undefined") {
         if (date.match(/^\d{4}-W\d/g)) {
@@ -215,6 +220,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
+                filterRange = "between"+startDate+" to "+endDate;
             } else if (monthName !== "" && typeof monthName !== "undefined") {
                 var params = {
                     "monthName": monthName,
@@ -222,6 +228,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
+                filterRange = "for the month of "+monthName;
             } else if (quarterly.length !== 0 && typeof quarterly !== "undefined") {
                 var params = {
                     "quaterType": quarterly[0].values[0].name,
@@ -229,6 +236,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
+                filterRange = "for the quarter "+quarterly[0].values[0].name;
             }
         } else {
             console.log(2)
@@ -238,6 +246,7 @@ alexaApp.intent("dateIntent", function (req, res) {
                 "oppstatus": oppStatus,
                 "filters": 'createdon'
             };
+            filterRange = "for "+condition[0].values[0].name;
         }
 
     } else {
@@ -246,10 +255,11 @@ alexaApp.intent("dateIntent", function (req, res) {
             "oppstatus": oppStatus,
             "filters": 'createdon'
         };
+        filterRange = "on "+date;
     }
     console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
-        var ssml = helper.buildSsml(oppStatus, result);
+        var ssml = helper.buildSsml(oppStatus,filterRange, result);
         console.log("SSML", ssml);
         res.say(ssml).shouldEndSession(false);
     }).catch((err) => {
@@ -261,6 +271,7 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
     console.log("inside combinedDateIntent");
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
+    filterRange = '';
     if (oppStatus == "" || typeof oppStatus == "undefined") {
         console.log("oppstatus empty");
         res.say("Please tell us the status in which want to see the opportunities, open,closed,Won or lost").shouldEndSession(false);
@@ -287,7 +298,7 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
                 endDate = req.data.request.intent.slots.startDate.value;
                 monthName = req.data.request.intent.slots.monthName.value;
                 quarterly = req.slots.quarterly.resolutions;
-
+    
                 if ((startDate !== "" && typeof startDate !== "undefined") && (endDate !== "" && typeof endDate !== "undefined")) {
                     var params = {
                         "startDate": startDate,
@@ -296,6 +307,7 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
                         "oppstatus": oppStatus,
                         "filters": 'createdon'
                     };
+                    filterRange = "between"+startDate+" to "+endDate;
                 } else if (monthName !== "" && typeof monthName !== "undefined") {
                     var params = {
                         "monthName": monthName,
@@ -303,6 +315,7 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
                         "oppstatus": oppStatus,
                         "filters": 'createdon'
                     };
+                    filterRange = "for the month of "+monthName;
                 } else if (quarterly.length !== 0 && typeof quarterly !== "undefined") {
                     var params = {
                         "quaterType": quarterly[0].values[0].name,
@@ -310,27 +323,30 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
                         "oppstatus": oppStatus,
                         "filters": 'createdon'
                     };
+                    filterRange = "for the quarter "+quarterly[0].values[0].name;
                 }
             } else {
                 console.log(2)
-
+    
                 var params = {
                     "condition": condition[0].values[0].name,
                     "oppstatus": oppStatus,
                     "filters": 'createdon'
                 };
+                filterRange = "for "+condition[0].values[0].name;
             }
-
+    
         } else {
             var params = {
                 "date": date,
                 "oppstatus": oppStatus,
                 "filters": 'createdon'
             };
+            filterRange = "on "+date;
         }
         console.log("PARAMS", params);
         return helper.callDynamicsAPI(params).then((result) => {
-            var ssml = helper.buildSsml(oppStatus, result);
+            var ssml = helper.buildSsml(oppStatus,filterRange, result);
             console.log("SSML", ssml);
             res.say(ssml).shouldEndSession(false);
         }).catch((err) => {
