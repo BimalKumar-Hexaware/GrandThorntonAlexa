@@ -24,12 +24,12 @@ var self = {
             });
         });
     },
-    "buildSsml": function (oppStatus, result) {
+    "buildSsml": function (oppStatus,filterRange, result) {
         var speech = new Speech();
 
         var speechOutput = speech.ssml(true);
         if (typeof result.value !== 'undefined') {
-            speech.say(`These are the ${oppStatus} opportunities`).pause('500ms');
+            speech.say(`These are the ${oppStatus} opportunities ${filterRange}`).pause('500ms');
             _.forEach(result.value, function (value, key) {
                 console.log("VALUE", value);
                 if (key < 5) {

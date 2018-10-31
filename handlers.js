@@ -68,6 +68,7 @@ alexaApp.intent("oppFilterIntent", function (req, res) {
 alexaApp.intent("revenueRangeIntent", function (req, res) {
     console.log("inside revenueRangeIntent");
     revenueRangeIntent = true;
+    filterRange = '';
     console.log("Slots", req.data.request.intent.slots);
     number = req.data.request.intent.slots.number.value;
     revenuerange = req.data.request.intent.slots.revenuerange.value;
@@ -81,6 +82,7 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
             "oppstatus": oppStatus,
             "filters": 'estimatedvalue'
         };
+        filterRange = "with Revenue between "+ low +" to "+ high;
     } else {
         console.log("range defined");
         var params = {
@@ -108,10 +110,11 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
                 params.ranges = "ge";
                 break;
         }
+        filterRange = "with Revenue "+ revenuerange + number;
     }
     console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
-        var ssml = helper.buildSsml(oppStatus, result);
+        var ssml = helper.buildSsml(oppStatus,filterRange, result);
         console.log("SSML", ssml);
         res.say(ssml).shouldEndSession(false);
     }).catch((err) => {
