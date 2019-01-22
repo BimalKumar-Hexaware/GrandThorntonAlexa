@@ -1,6 +1,8 @@
 var request = require('request');
 var _ = require('lodash');
 var Speech = require('ssml-builder');
+var millify = require('millify');
+
 
 var self = {
     "callDynamicsAPI": function (params) {
@@ -39,7 +41,7 @@ var self = {
                     //     speech.say("the revenue is " + value.estimatedvalue);
                     //     speech.say("and the status is ").pause('500ms');
                     // } else {
-                    speech.say("and the revenue is " + value.estimatedvalue).pause('500ms');
+                    speech.say("and the revenue is " + millify(value.estimatedvalue)).pause('500ms');
                     // }
                 }
             });

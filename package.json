@@ -20,6 +20,7 @@
     "nodemon": "^1.18.4",
     "number-to-words": "^1.2.4",
     "request": "^2.88.0",
-    "ssml-builder": "^0.4.3"
+    "ssml-builder": "^0.4.3",
+    "millify": "^2.0.1"
   }
 }
