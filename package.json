@@ -4,9 +4,8 @@
   "description": "Alexa voicebot developed for Grand Thornton",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "stop": "forever stop index.js",
-    "devstart": "nodemon index.js",
+    "start": "forever start -a -o ./out.log -e ./err.log --uid 'grant-thorton-alexa' index.js",
+    "stop": "forever stop grant-thorton-alexa",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Bimal Kumar H",
