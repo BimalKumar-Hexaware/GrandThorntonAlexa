@@ -16,6 +16,7 @@ revenuerange = "";
 date = "";
 low = "";
 high = "";
+repeatContent = {};
 
 alexaApp.error = function (exception, req, res) {
     console.log(exception);
@@ -70,6 +71,7 @@ alexaApp.intent("revenueRangeIntent", function (req, res) {
     console.log("inside revenueRangeIntent");
     revenueRangeIntent = true;
     filterRange = '';
+    repeatContent = {};
     console.log("Slots", req.data.request.intent.slots);
     number = req.data.request.intent.slots.number.value;
     revenuerange = req.data.request.intent.slots.revenuerange.value;
@@ -128,6 +130,7 @@ alexaApp.intent("combinedRevenueIntent", function (req, res) {
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
     filterRange = '';
+    repeatContent = {};
     if (oppStatus == "" || typeof oppStatus == "undefined") {
         console.log("oppstatus empty");
         res.say("Please tell us the status in which want to see the opportunities, open,closed,won or lost").shouldEndSession(false);
@@ -176,6 +179,11 @@ alexaApp.intent("combinedRevenueIntent", function (req, res) {
         }
         console.log("PARAMS", params);
         return helper.callDynamicsAPI(params).then((result) => {
+            repeatContent = {
+                'oppStatus': oppStatus,
+                'filterRange': filterRange,
+                'result':result
+            };
             var ssml = helper.buildSsml(oppStatus, filterRange, result);
             console.log("SSML", ssml);
             res.say(ssml).shouldEndSession(false);
@@ -190,6 +198,7 @@ alexaApp.intent("dateIntent", function (req, res) {
     console.log("Slots", JSON.stringify(req.slots));
     date = req.data.request.intent.slots.date.value;
     filterRange = '';
+    repeatContent = {};
     console.log(date);
     if (date !== "" && typeof date !== "undefined") {
         if (date.match(/^\d{4}-W\d/g)) {
@@ -259,6 +268,11 @@ alexaApp.intent("dateIntent", function (req, res) {
     }
     console.log("PARAMS", params);
     return helper.callDynamicsAPI(params).then((result) => {
+        repeatContent = {
+            'oppStatus': oppStatus,
+            'filterRange': filterRange,
+            'result':result
+        };
         var ssml = helper.buildSsml(oppStatus,filterRange, result);
         console.log("SSML", ssml);
         res.say(ssml).shouldEndSession(false);
@@ -272,6 +286,7 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
     console.log("Slots", req.data.request.intent.slots);
     oppStatus = req.data.request.intent.slots.status.value;
     filterRange = '';
+    repeatContent = {};
     if (oppStatus == "" || typeof oppStatus == "undefined") {
         console.log("oppstatus empty");
         res.say("Please tell us the status in which want to see the opportunities, open,closed,Won or lost").shouldEndSession(false);
@@ -346,6 +361,11 @@ alexaApp.intent('combinedDateIntent', function (req, res) {
         }
         console.log("PARAMS", params);
         return helper.callDynamicsAPI(params).then((result) => {
+            repeatContent = {
+                'oppStatus': oppStatus,
+                'filterRange': filterRange,
+                'result':result
+            };
             var ssml = helper.buildSsml(oppStatus,filterRange, result);
             console.log("SSML", ssml);
             res.say(ssml).shouldEndSession(false);
@@ -382,6 +402,12 @@ alexaApp.intent("thankIntent", function (req, res) {
     revenuerange = "";
     date = "";
     res.say("Happy to help you. Have a nice day.").shouldEndSession(true);
+});
+
+alexaApp.intent("repeatIntent", function (req, res) {
+    var ssml = helper.buildSsml(repeatContent.oppStatus,repeatContent.filterRange, repeatContent.result);
+    console.log("SSML", ssml);
+    res.say(ssml).shouldEndSession(false);
 });
 
 module.exports = alexaApp;
