@@ -40,7 +40,7 @@ alexaApp.intent("AMAZON.CancelIntent", function (request, response) {
 });
 
 alexaApp.launch(function (req, res) {
-    res.say("Hi there, I am your Grand Thornton Assistant. Tell me how can I help you.").shouldEndSession(false);
+    res.say("Hi Steve, I am your Grand Thornton Assistant. Tell me how can I help you.").shouldEndSession(false);
 });
 
 alexaApp.intent("oppStatusIntent", function (req, res) {
