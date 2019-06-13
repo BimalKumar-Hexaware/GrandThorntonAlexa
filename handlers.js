@@ -405,7 +405,12 @@ alexaApp.intent("thankIntent", function (req, res) {
 });
 
 alexaApp.intent("repeatIntent", function (req, res) {
-    console.log('req',req.data.request.intent.slots);
+    console.log('req',req.data.request.intent.slots.repeatCardNum.value);
+    if(req.data.request.intent.slots.repeatCardNum.value !== undefined) {
+        var listValue = req.data.request.intent.slots.repeatCardNum.value;
+        repeatContent.result.value = [repeatContent.result.value[listValue-1]];
+        console.log(result.value)
+    }
     var ssml = helper.buildSsml(repeatContent.oppStatus,repeatContent.filterRange, repeatContent.result);
     console.log("SSML", ssml);
     res.say(ssml).shouldEndSession(false);
